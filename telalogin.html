@@ -1,123 +1,177 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-        <link rel="icon" href="imagens/If.png" type="image/x-icon">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login</title>
-        <style>
-        
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="icon" href="imagens/If.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
         body {
-                font-family: Arial, sans-serif;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: auto;
-                margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+            margin: 0;
             background-image: url('imagens/home-1438305_1280.jpg');
-                background-size: cover;
-                background-repeat: no-repeat;
-            }
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
 
-            .login-container {
-                background-color: #ffffffe3;
-                border-radius: 10px;    
-                padding: 10px;
-                padding-top: 1px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                width: 350px;
-                height: 100%;
-                margin-top: 60%;
-                border-color: #000000;
-                
-            }
+        .login-container {
+            background-color: #ffffffe3;
+            border-radius: 10px;
+            padding: 10px;
+            padding-top: 1px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            height: 100%;
+            margin-top: 60%;
+            border-color: #000000;
 
-            .login-container h2 {
-                margin-bottom: 10px;
-                color: #000000;
-            }
+        }
 
-            .login-form {
-                display: flex;
-                flex-direction: column;
-            }
+        .login-container h2 {
+            margin-bottom: 10px;
+            color: #000000;
+        }
 
-            .login-form label {
-                margin-bottom: 10px;
-                color: #000000;
-            }
+        .login-form {
+            display: flex;
+            flex-direction: column;
+        }
 
-            .login-form input {
-                padding: 10px;
-                border: 1px solid #000000;
-                border-radius: 5px;
-                margin-bottom: 15px;
-                margin-left: 15px;
-                display: block;
-                width: 300px;
-            }
-    
+        .login-form label {
+            margin-bottom: 10px;
+            color: #000000;
+        }
+
+        .login-form input {
+            padding: 10px;
+            border: 1px solid #000000;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            margin-left: 15px;
+            display: block;
+            width: 300px;
+        }
+
 
         .login-form .radio-group {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
         .login-form .radio-group label {
-                margin-right: 5px;
-            }
+            margin-right: 5px;
+        }
 
-            .login-form button {
-                background-color: #32CD32;
-                color: #fff;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                font-size: 16px;
-                transition: background-color 0.3s ease;
-            }
+        .login-form button {
+            background-color: #32CD32;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
 
-            .login-form button:hover {
-                background-color: #45a049;
-            }
+        .login-form button:hover {
+            background-color: #45a049;
+        }
 
-            .login-form p {
-                color: #888;
-                margin-top: 15px;
-            }
+        .login-form p {
+            color: #888;
+            margin-top: 15px;
+        }
 
-            .login-form a {
-                color: #4CAF50;
-                text-decoration: none;
-            }
+        .login-form a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
 
-        </style>
-    </head>
-    <body>
-        <center>
-            <div class="login-container">
+        .x {
+            float: right;
+            font-size: 20px;
+            cursor: pointer;
+            color: #333;
 
-                <a class=" ax" href="index.html"><button type="button" class="btn-close x" aria-label="Close"></button>
-                </a>
-            <h2>Tela de Login</h2>
-            <form class="login-form">
-        
-              
-             
+        }
+
+        .x:hover {
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <div class="login-container">
+
+            <a class=" ax" href="index.html"><button type="button" class="btn-close x" aria-label="Close"></button>
+            </a><br>
+            <h2>Efetue seu Login</h2>
+            <form class="login-form" id="login-form">
+
+
+
                 <input type="email" name="email" id="email" required="required" placeholder="email"></input>
-               
-                <input type="password" name="senha" id= 'senha' required="required" placeholder="Senha"></input>
 
-            
+                <input type="password" name="senha" id='senha' required="required" placeholder="Senha"></input>
 
-                <button type="submit">Login</button><br>
+
+
+                <button type="submit" id="login-button">Avançar</button><br>
                 <a href="esquecisenha.html" id="esquecisenha"> Esqueceu a Senha?</a>
                 <p>Não tem uma conta? <a href="telacadastro.html" id="cadastro-link">Cadastre-se aqui</a></p>
             </form>
 
     </center>
-    </body>
-    </html>
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const emailInput = document.getElementById('email');
+        const senhaInput = document.getElementById('senha');
+        const loginForm = document.getElementById('login-form');
+
+        loginForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const email = emailInput.value;
+            const senha = senhaInput.value;
+
+
+            const data = {
+                email: email,
+                senha: senha
+            };
+
+            fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                const token = data.token;
+                window.location.href = 'index.html';
+                console.log('funcionou')
+            })
+            .catch(error => {
+                console.error('Erro ao fazer login:', error);
+
+            });
+        });
+    });
+</script>
+
+</html>
