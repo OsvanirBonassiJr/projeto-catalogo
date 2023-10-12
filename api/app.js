@@ -9,7 +9,7 @@ const cors = require('cors');
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express. json());
+app.use(express.json());
 
 app.listen(3000, async () => {
   console.log('App iniciado');
@@ -41,23 +41,52 @@ const Usuario = sequelize.define(
       primaryKey: true,
       autoIncrement: true // Automatically gets converted to SERIAL for postgres
     },
-    nome:{ type:DataTypes.STRING,},
-    sobrenome: { type:DataTypes.STRING,},
-    email: { type:DataTypes.STRING,},
-    senha: { type:DataTypes.STRING,},
-    cpf: { type:DataTypes.STRING,},
-    cidade: { type:DataTypes.STRING,},
-    data_nasc: { type:DataTypes.STRING,},
-    tipo: { type:DataTypes.STRING,},
-    rg: { type:DataTypes.STRING,},
-    cep: { type:DataTypes.STRING,},
-    telefone: { type:DataTypes.STRING,},
+    nome: { type: DataTypes.STRING, },
+    sobrenome: { type: DataTypes.STRING, },
+    email: { type: DataTypes.STRING, },
+    senha: { type: DataTypes.STRING, },
+    cpf: { type: DataTypes.STRING, },
+    cidade: { type: DataTypes.STRING, },
+    data_nasc: { type: DataTypes.STRING, },
+    tipo: { type: DataTypes.STRING, },
+    rg: { type: DataTypes.STRING, },
+    cep: { type: DataTypes.STRING, },
+    telefone: { type: DataTypes.STRING, },
   },
   {
     timestamps: false,
     paranoid: true, //utilizado quando uma tabela não será deletada OBS: O campo deverá ser timestamp
   }
 );
+
+const Imovel = sequelize.define(
+  'imoveis',
+  {
+    id_imovel: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    tipo_operacao: { type: DataTypes.STRING, },
+    zona: { type: DataTypes.STRING, },
+    cidade: { type: DataTypes.STRING, },
+    estado: { type: DataTypes.STRING, },
+    cep: { type: DataTypes.STRING, },
+    especie: { type: DataTypes.STRING, },
+    valor: { type: DataTypes.STRING, },
+    bairro: { type: DataTypes.STRING, },
+    rua: { type: DataTypes.STRING, },
+    numero: { type: DataTypes.STRING, },
+    complemento: { type: DataTypes.STRING, },
+    tamanho_terreno: { type: DataTypes.STRING, },
+    tamanho_moradia: { type: DataTypes.STRING, },
+    info_complementares: { type: DataTypes.STRING, },
+  },
+  {
+    timestamps: false,
+    paranoid: true, //utilizado quando uma tabela não será deletada OBS: O campo deverá ser timestamp
+  }
+)
 
 async function criarUsuario(req, res) {
   try {
@@ -81,10 +110,10 @@ async function login(req, res) {
     return res.status(401).json({ mensagem: 'Email não encontrado' });
   }
 
-  if (usuario.senha != req.body.senha){
+  if (usuario.senha != req.body.senha) {
     return res.status(401).json({ mensagem: 'Email ou senha inválidos' });
   }
-  res.json({token: jwt.sign(JSON.stringify (usuario), 'senha do token')})  // Gere e retorne um token JWT ou faça o que for necessário após a autenticação bem-sucedida.
+  res.json({ token: jwt.sign(JSON.stringify(usuario), 'senha do token') })  // Gere e retorne um token JWT ou faça o que for necessário após a autenticação bem-sucedida.
 }
 
 async function listarUsuarios(req, res) {
