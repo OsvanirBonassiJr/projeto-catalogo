@@ -11,12 +11,12 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 
-app.listen(3000, async () => {
+app.listen(8080, async () => {
   console.log('App iniciado');
   try {
     await sequelize.authenticate();
     await sequelize.sync(); // Nunca utilize em produção
-    console.log('Conexão com o banco de dados estabelecida na porta 3000');
+    console.log('Conexão com o banco de dados estabelecida na porta 8080');
   } catch (error) {
     console.error('Erro ao conectar ao banco de dados:', error);
   }
@@ -69,7 +69,7 @@ const Imovel = sequelize.define(
     },
     tipo_operacao: { type: DataTypes.STRING, },
     zona: { type: DataTypes.STRING, },
-    cidade: { type: DataTypes.STRING, },
+    id_cidade: { type: DataTypes.STRING, },
     estado: { type: DataTypes.STRING, },
     cep: { type: DataTypes.STRING, },
     especie: { type: DataTypes.STRING, },
@@ -93,6 +93,7 @@ async function criarUsuario(req, res) {
     if (!req.body.nome || !req.body.sobrenome || !req.body.email || !req.body.senha || !req.body.cpf || !req.body.cidade || !req.body.data_nasc || !req.body.rg || !req.body.cep || !req.body.telefone) {
       return res.status(422).json({ msg: "Campos obrigatórios não foram preenchidos" });
     }
+    
     const usuario = await Usuario.create(req.body);
     res.status(201).json(usuario);
   } catch (error) {
