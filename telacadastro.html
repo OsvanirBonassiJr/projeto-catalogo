@@ -2,10 +2,6 @@
 <html lang="en">
 
 <head>
-    <?php
-    @$conexao = pg_connect("host=localhost port=5432 dbname=CatImo user=postgres  password=Thigasbm");//conexão
-    pg_set_client_encoding($conexao, 'UNICODE');
-    ?>
     <meta charset="UTF-8">
     <link rel="icon" href="imagens/If.png" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -213,16 +209,23 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const form = document.getElementById('cadastro-form');
+        const senhaInput = document.getElementById('senha');
+        const confirmarSenhaInput = document.getElementById('confirmar_senha');
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            if (senhaInput.value !== confirmarSenhaInput.value) {
+                alert('As senhas não condizem');
+                return;
+            }
 
             const formData = new FormData(form);
             const formObject = {};
             formData.forEach((value, key) => {
                 formObject[key] = value;
             });
-
+        
             try {
                 const response = await fetch('http://localhost:3000/usuarios', {
                     method: 'POST',
@@ -240,9 +243,10 @@
                 }
             } catch (error) {
                 console.error(error);
-            }
-        });
+            
+        }});
     });
+
 
 </script>
 
