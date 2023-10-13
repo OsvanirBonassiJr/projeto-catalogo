@@ -101,7 +101,7 @@ async function criarUsuario(req, res) {
   }
 }
 
-//funcionando no back
+//funcionando
 async function login(req, res) {
   const { email, senha } = req.body;
   const usuario = await Usuario.findOne({ where: { email } });
