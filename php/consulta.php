@@ -20,6 +20,7 @@ if (!$conexao) {
                 $idcidade = $linha[0];
                 $nomecidade = $linha[1];
                 $cidades[] = array('id' => $idcidade, 'nome' => $nomecidade);
+                
             }
 
             echo json_encode($cidades);
@@ -28,7 +29,7 @@ if (!$conexao) {
         }
     } else {
         echo "Parâmetro 'uf_estado' não foi fornecido.";
-        $erro = "Ocorreu um erro!";
+        $erro = "Ocorreu um erro";
         echo "<script>console.log('$erro');</script>";
     }
 }

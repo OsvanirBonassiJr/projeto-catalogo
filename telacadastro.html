@@ -36,7 +36,7 @@
 
                 <input type="text" oninput="mascara(this)" name="cpf" id='cpf' required="required" placeholder="CPF"></input>
 
-                <input type="text" name="rg" id="rg" required="required" placeholder="RG"></input>
+                <input type="text" name="rg" id="rg" required="required" placeholder="RG" maxlength="8"></input>
 
                 <input type="date" name="data_nasc" id="data_nasc" required="required" placeholder="Data de nascimento"
                     style="color: #757575"></input>
@@ -76,36 +76,33 @@
                     <option value="TO">Tocantins</option>
                     <!-- Adicione outras opções de estados aqui -->
                 </select>
-                <select name="id_cidade" id="id_cidade" required="required" style="color: #757575">
+                <select name="cidade" id="cidade" required="required" style="color: #757575">
                     <option value="selected" selected>Selecione a sua cidade...</option>
                 </select>
 
                 <script>
                     const ufEstado = document.getElementById('uf_estado');
-                    const idCidade = document.getElementById('id_cidade');
+                    const idCidade = document.getElementById('cidade');
 
                     ufEstado.addEventListener('change', () => {
                         const selectedUf = ufEstado.value;
 
                         if (selectedUf !== 'selected') {
+
                             // Faz a solicitação AJAX para obter as cidades
                             fetch(`php/consulta.php?uf_estado=${selectedUf}`)
                                 .then(response => response.json())
                                 .then(data => {
-                                    // Limpa a lista de cidades
                                     idCidade.innerHTML = '<option value="selected" selected>Selecione a sua cidade...</option>';
-
-                                    // Preenche a lista de cidades com os dados retornados
-                                    data.forEach(cidade => {
+                                    data.forEach(cidades => {
                                         const option = document.createElement('option');
-                                        option.value = cidade.id_cidade;
-                                        option.textContent = cidade.nome;
+                                        option.value = cidades.id;
+                                        option.textContent = cidades.nome;
                                         idCidade.appendChild(option);
                                     });
                                 })
                                 .catch(error => console.error('Erro na solicitação:', error));
                         } else {
-                            // Limpa a lista de cidades se nada estiver selecionado
                             idCidade.innerHTML = '<option value="selected" selected>Selecione a sua cidade...</option>';
                         }
                     });
@@ -195,10 +192,10 @@ if (v.length === 1) {
                 alert('rg inválido');
                 return;
             }
-            if (telefone.length < 11) {
+           /* if (telefone.length < 11) {
                 alert('telefone inválido');
                 return;
-            }
+            }*/
 
             const formData = new FormData(form);
             const formObject = {};
