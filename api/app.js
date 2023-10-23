@@ -33,13 +33,17 @@ const sequelize = new Sequelize({ //troque para seu perfil
   database: 'CatImo',
 });
 
+
+//Definição das tabelas
+
+
 const Usuario = sequelize.define(
   'usuarios',
   {
     id_usuario: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true // Automatically gets converted to SERIAL for postgres
+      autoIncrement: true // Se transforma em serial automaticamente no postgres
     },
     nome: { type: DataTypes.STRING, },
     sobrenome: { type: DataTypes.STRING, },
@@ -88,12 +92,86 @@ const Imovel = sequelize.define(
   }
 )
 
+const Espec = sequelize.define(
+  'especificacoes',
+  {
+    id_espec: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    id_imovel: { type: DataTypes.STRING },
+    descricao: { type: DataTypes.STRING },
+    medida: { type: DataTypes.STRING },
+    quantidade: { type: DataTypes.STRING },
+  },
+  {
+    timestamps: false,
+    paranoid: true,
+  }
+);
+
+const ft_Espec = sequelize.define(
+  'fotos_espec',
+  {
+    id_foto: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    id_espec: { type: DataTypes.STRING },
+    descricao: { type: DataTypes.STRING },
+  },
+  {
+    timestamps: false,
+    paranoid: true,
+  }
+);
+
+const arq_Doc = sequelize.define(
+  'arquivos_doc',
+  {
+    id_arq: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    id_doc: { type: DataTypes.STRING },
+    descricao: { type: DataTypes.STRING },
+  },
+  {
+    timestamps: false,
+    paranoid: true,
+  }
+);
+
+const doc_Ope = sequelize.define(
+  'documentos_operacao',
+  {
+    id_doc: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    tipo_operacao: { type: DataTypes.STRING },
+    descricao: { type: DataTypes.STRING },
+  },
+  {
+    timestamps: false,
+    paranoid: true,
+  }
+);
+
+
+//funções
+
+
 async function criarUsuario(req, res) {
   try {
     if (!req.body.nome || !req.body.sobrenome || !req.body.email || !req.body.senha || !req.body.cpf || !req.body.cidade || !req.body.data_nasc || !req.body.rg || !req.body.cep || !req.body.telefone) {
       return res.status(422).json({ msg: "Campos obrigatórios não foram preenchidos" });
     }
-    
+
     const usuario = await Usuario.create(req.body);
     res.status(201).json(usuario);
   } catch (error) {

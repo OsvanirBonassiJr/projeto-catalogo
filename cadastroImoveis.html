@@ -1,0 +1,486 @@
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cadastro de Imóvel</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+            align-items: center;
+            background-image: url('imagens/home-1438305_1280.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            overflow: auto;
+        }
+
+        .button:focus {
+            outline: none !important;
+        }
+
+        .container {
+            margin-top: 50px;
+            margin-bottom: 50px;
+            background-color: rgba(255, 255, 255, 0.8);
+            /* Fundo semitransparente */
+            padding: 20px;
+            border-radius: 10px;
+            /* Cantos arredondados */
+            position: relative;
+            /* Para posicionar o icone 'x' */
+
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            /* Margem inferior para o titulo */
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+            /* Espaçamento reduzido entre campos do formulario */
+        }
+
+        /* Ajuste de espaçamento para o botão de envio */
+
+        button.btn-primary {
+            margin-top: 10px;
+            /* Espaçamento acima do botão */
+
+        }
+
+        /* Ajuste para o icone "x" no canto direito da div */
+        .close.x {
+            font-size: 40px;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .close.x:hover {
+            color: #555;
+        }
+
+        /* Ajuste para campos Preço e CEP ficarem na mesma linha */
+        .preco-cep {
+            display: flex;
+            justify-content: end;
+        }
+
+        .preco-cep .form-group {
+            flex: 0;
+
+        }
+
+        /* Ajuste para campos Bairro e Rua ficarem na mesma linha */
+        .bairro-rua {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .bairro-rua .form-group {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        /* Ajuste para campos Cep, Estado, Cidade e Numero na mesma linha */
+        .cep-estado-cidade-numero {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .cep-estado-cidade-numero .form-group {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        button.btn-success {
+            width: 500px;
+        }
+
+        label {
+            font-size: 20px;
+
+        }
+
+        .preco {
+            margin-right: -20px !important;
+        }
+
+        .localidade {
+
+            margin-left: 5px !important;
+        }
+
+        .localidade1 {
+            margin-left: 10px !important;
+        }
+
+
+        .addimg {
+            background-color: #A9A9A9;
+            border-radius: 10px;
+            border-color: black;
+            width: 200px;
+            margin-bottom: 20px;
+        }
+
+
+        .addimg2 {
+            background-color: #A9A9A9;
+            border-radius: 10px;
+            border-color: black;
+            width: 200px;
+            margin-left: 400px;
+            margin-bottom: 20px;
+
+        }
+
+        .addimg2:hover,
+        .addimg:hover {
+            background-color: #8b8b8b;
+            border-radius: 10px;
+            border-color: black;
+            cursor: pointer;
+        }
+
+
+
+        .quantidade {
+            width: 80px;
+            margin-left: 250px;
+        }
+
+        .comodolbl {
+            margin-left: -40px;
+        }
+
+        .comodo {
+            width: 250px;
+            margin-left: 50px;
+        }
+
+        .container_img {
+
+            float: right;
+        }
+
+        .coitainer_comodo {
+
+            float: left;
+        }
+
+        .btn-success{
+            background-color: #32CD32;
+            background-color: #32CD32;
+            border: 4px;
+        }
+
+        .btn_x {
+            height: 40px !important;
+        }
+
+        .container_geral {
+            border: 2px;
+            border-color: #333;
+            border-style: solid;
+            width: auto;
+            height: 200px;
+            overflow: auto;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .imgdiv {
+            border: 2px;
+            border-bottom: 0px;
+            border-top: 0px;
+            border-left: 0px;
+            border-color: #333;
+            border-style: solid;
+
+        }
+
+        /* Improved styling for the image and comodo and quantidade rows */
+        .form-group.row {
+            margin-bottom: 0;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0px;
+            /* Reduce the spacing here */
+        }
+
+        .input-group .form-control {
+            flex: 100px;
+            margin-right: 0px;
+            /* Reduce the margin-right to bring them closer */
+        }
+
+        .coitainer_img{
+            margin-top: 0px;
+
+        }
+
+        .coitainer_comodo{
+            margin-top: 10px;
+        }
+
+        .imgipt{
+           padding: 3px 10px 30px 10px;
+            height: 40px;
+            margin-top: 10px;
+        }
+
+</style>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <a class="ax" href="outro_arquivo.html">
+            <button type="button" class="close x" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </a>
+        <h2>Cadastro de Imóvel</h2>
+
+        <!-- LINHA 1: inputs {modelo e preço} -->
+        <center>
+            <form>
+                <div class="form-group row ">
+                    <label for="preco" class="col-sm-1 preco ">Preço:</label>
+                    <div class="col-sm-2 ">
+                        <input type="text" class="form-control preco1" id="preco" name="preco" required="required">
+                    </div>
+
+                    <label for="modelo" class="col-sm-1. modelo ">Espécie:</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" id="modelo" name="modelo" required="required">
+                            <option>Selecione...</option>
+                            <option value="casa">Casa</option>
+                            <option value="apartamento">Apartamento</option>
+                            <option value="terreno">Terreno</option>
+                            <option value="terreno_casa">Terreno com Casa</option>
+                            <option value="sitio">Sítio</option>
+                            <option value="sala_comerceial">Sala comercial</option>
+                            <option value="barracao">Barracão</option>
+                            <option value="kitnet">Kitnet</option>
+                        </select>
+                    </div>
+
+                    <label for="localidade" class="col-sm-1. localidade">Localidade:</label>
+                    <div class="col-sm-2">
+                        <select class="form-control localidade1" id="localidade" name="localidade" required="required">
+                            <option>Selecione...</option>
+                            <option value="Rural">Rural</option>
+                            <option value="Urbano">Urbano</option>
+                        </select>
+
+
+                    </div>
+                    <div class="col-md-1">
+                        <label for="tipo_venda"> Venda</label>
+                            <input type="radio" class="form-control" id="tipo_venda" name="tipo" style="height:25px;width:50px;" required="required">  
+                       </div>
+                <div style="border-right:0px;border-top:0px;border-bottom:0px;border-left:3px;border-style:solid;border-color:rgba(81,80,80,0.692);height:60px;" ></div>
+                       <div class=" col-sm-1" >  
+                       <label for="tipo_locacao"> Locação</label>
+                       <input type="radio" class="form-control" style=" height:25px;width:50px;" id="tipo_locacao" name="tipo" required="required">
+                   </div>
+                </div>
+        </center>
+
+        <!-- LINHA 2: inputs {bairro e rua} -->
+        <div class="form-group bairro-rua">
+            <div class="form-group col-md-6">
+                <label for="bairro">Bairro:</label>
+                <input type="text" class="form-control" id="bairro" name="bairro" required="required">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="rua">Rua:</label>
+                <input type="text" class="form-control" id="rua" name="rua" required="required">
+            </div>
+        </div>
+
+        <!-- LINHA 3: inputs {cep, estado, cidade e numero} -->
+        <div class="form-group cep-estado-cidade-numero">
+            <div class="form-group col-md-3">
+                <label for="cep">CEP:</label>
+                <input type="number" class="form-control" id="cep" name="cep" required="required">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="estado">Estado:</label>
+                <select class="form-control" id="estado" name="estado" required="required">
+                    <option>Selecione...</option>
+                    <option value="AC">Acre</option>
+                    <option value="AL">Alagoas</option>
+                    <!-- adicionar mais estados aqui-->
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="cidade">Cidade:</label>
+                <input type="text" class="form-control" id="cidade" name="cidade" required="required">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="numero">Número:</label>
+                <input type="number" class="form-control" id="numero" name="numero" required="required">
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <label for="complemento">Complemento do Endereço:</label>
+            <input type="text" class="form-control" id="complemento" name="complemento">
+        </div>
+        <br>
+
+        <!-- LINHA 5: Area do terreno e Area construída -->
+        <div class="form-group row">
+            <div class="col-md-3">
+                <label for="area-terreno">Área do Terreno (m²):</label>
+                <input type="number" class="form-control" id="area-terreno" name="area-terreno" required="required">
+            </div>
+            <div class="col-md-3">
+                <label for="area-construida">Área Construída (m²):</label>
+                <input type="number" class="form-control" id="area-construida" name="area-construida" required="required">
+            </div>
+          
+        </div>
+
+
+        <!-- LINHA 6 : informações complementares  -->
+        <div class="form-group">
+            <label for="informacoes-complementares">Informações Complementares:</label>
+            <textarea class="form-control" id="informacoes-complementares" name="informacoes-complementares" placeholder="Descreva o seu imóvel!" rows="3"></textarea>
+        </div>
+        <br>
+
+
+        <!--LINHA 7-->
+        <!-- Botão "Adicionar imagens" -->
+        <button type="button" class="btn btn-primary addimg" onclick="addImageInput()">Adicionar imagem</button>
+
+        <!-- Botão "Adicionar Comodo e Quantidade" -->
+        <button type="button" class="btn btn-primary addimg2" onclick="addComodoAndQuantidadeRow()">Adicionar
+            Cômodos</button>
+
+        <div class="form-group row container_geral" id="imageAndComodoRows">
+            <!-- LINHA 7: IMAGENS -->
+            <div class="form-group col-md-6 imgdiv" id="imageRows">
+            </div>
+
+            <!-- LINHA 7: COMODO E QUANTIDADE -->
+            <div class="form-group col-md-6" id="comodoAndQuantidadeRows">
+            </div>
+        </div>
+
+
+        <!--Scripts abaixo!-->
+        <script>
+
+
+            function deleteImageDiv(button) {
+                const parentDiv = button.parentElement;
+                const imageRows = document.getElementById("imageRows");
+                imageRows.removeChild(parentDiv);
+            }
+
+            function deleteComodoDiv(button) {
+                const parentDiv = button.parentElement.parentElement;
+                const comodoAndQuantidadeRows = document.getElementById("comodoAndQuantidadeRows");
+                comodoAndQuantidadeRows.removeChild(parentDiv);
+            }
+
+            function addImageInput() {
+                const imageRows = document.getElementById("imageRows");
+                const newRow = document.createElement("div");
+                newRow.className = "input-group mb-3 col-md-11 coitainer_img";
+                //Input da imagem na linha 410:
+                newRow.innerHTML = `
+        <input type="file" class="form-control imgipt" id="imagem" name="imagem" size="400" required="required">
+            <button class="btn btn-danger btn_x" style="margin-top:10px;" onclick="deleteImageDiv(this)">X</button>
+        `;
+                imageRows.appendChild(newRow);
+            }
+
+            function addComodoAndQuantidadeRow() {
+                const comodoAndQuantidadeRows = document.getElementById("comodoAndQuantidadeRows");
+                const newRow = document.createElement("div");
+                newRow.className = "form-group row coitainer_comodo";
+                //input de comodos e quantidade  nas linhas 424 e 428:
+                newRow.innerHTML = `
+            <div class="form-group col-md-1" style="display: flex; align-items: center;">
+            
+                <input type="text" class="form-control comodo" id="comodo-nome" name="comodo-nome" Placeholder="Nome" required="required">
+                </div>
+                
+            <div class="form-group col-md-1"  style="display: flex; align-items: center;">
+                <input type="number" class="form-control quantidade" id="comodo-quantidade"name="comodo-quantidade" placeholder="Qtd" required="required">
+                <button class="btn btn-danger btn_x" onclick="deleteComodoDiv(this)">X</button>
+            </div>
+        `;
+                comodoAndQuantidadeRows.appendChild(newRow);
+            }
+
+
+
+            // Função para formatar o input do preço em moeda R$
+            function formatCurrency(input) {
+                // Remove todos os caracteres não numéricos do valor de entrada
+                if (!input.value) {
+                    return
+                }
+
+
+                var value = input.value.replace(/\D/g, '');
+
+
+                // Formate o valor como uma moeda com R$ e duas casas decimais
+
+                var formattedValue = (parseFloat(value) / 100).toLocaleString('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                });
+
+                // Atualize o valor no input
+                input.value = formattedValue; ''
+            }
+
+            // Adicione um evento de input ao input do preço para formatar continuamente o valor
+            var precoInput = document.getElementById('preco');
+            precoInput.addEventListener('input', function () {
+                formatCurrency(precoInput);
+            });
+        </script>
+
+        <br><!-- BOTÃO PARA SALVAR!-->
+        <center>
+            <button type="submit" class="btn btn-success">Cadastrar Imóvel</button>
+        </center>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+
+
+
+
+</form>
+
+
+</body></html>
