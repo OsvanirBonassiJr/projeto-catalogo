@@ -1,249 +1,18 @@
-<html><head>
+<html>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cadastro de Imóvel</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-
-
-    <!-- Estilos personalizados -->
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            justify-content: center;
-            align-items: center;
-            background-image: url('imagens/home-1438305_1280.jpg');
-            background-size: cover;
-            background-repeat: no-repeat;
-            overflow: auto;
+            background-image: url('imagens/bg2.jpg') !important;
         }
+    </style>
 
-        .button:focus {
-            outline: none !important;
-        }
-
-        .container {
-            margin-top: 50px;
-            margin-bottom: 50px;
-            background-color: rgba(255, 255, 255, 0.8);
-            /* Fundo semitransparente */
-            padding: 20px;
-            border-radius: 10px;
-            /* Cantos arredondados */
-            position: relative;
-            /* Para posicionar o icone 'x' */
-
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            /* Margem inferior para o titulo */
-        }
-
-        .form-group {
-            margin-bottom: 5px;
-            /* Espaçamento reduzido entre campos do formulario */
-        }
-
-        /* Ajuste de espaçamento para o botão de envio */
-
-        button.btn-primary {
-            margin-top: 10px;
-            /* Espaçamento acima do botão */
-
-        }
-
-        /* Ajuste para o icone "x" no canto direito da div */
-        .close.x {
-            font-size: 40px;
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            cursor: pointer;
-            color: #333;
-        }
-
-        .close.x:hover {
-            color: #555;
-        }
-
-        /* Ajuste para campos Preço e CEP ficarem na mesma linha */
-        .preco-cep {
-            display: flex;
-            justify-content: end;
-        }
-
-        .preco-cep .form-group {
-            flex: 0;
-
-        }
-
-        /* Ajuste para campos Bairro e Rua ficarem na mesma linha */
-        .bairro-rua {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .bairro-rua .form-group {
-            flex: 1;
-            margin-right: 10px;
-        }
-
-        /* Ajuste para campos Cep, Estado, Cidade e Numero na mesma linha */
-        .cep-estado-cidade-numero {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .cep-estado-cidade-numero .form-group {
-            flex: 1;
-            margin-right: 10px;
-        }
-
-        button.btn-success {
-            width: 500px;
-        }
-
-        label {
-            font-size: 20px;
-
-        }
-
-        .preco {
-            margin-right: -20px !important;
-        }
-
-        .localidade {
-
-            margin-left: 5px !important;
-        }
-
-        .localidade1 {
-            margin-left: 10px !important;
-        }
-
-
-        .addimg {
-            background-color: #A9A9A9;
-            border-radius: 10px;
-            border-color: black;
-            width: 200px;
-            margin-bottom: 20px;
-        }
-
-
-        .addimg2 {
-            background-color: #A9A9A9;
-            border-radius: 10px;
-            border-color: black;
-            width: 200px;
-            margin-left: 400px;
-            margin-bottom: 20px;
-
-        }
-
-        .addimg2:hover,
-        .addimg:hover {
-            background-color: #8b8b8b;
-            border-radius: 10px;
-            border-color: black;
-            cursor: pointer;
-        }
-
-
-
-        .quantidade {
-            width: 80px;
-            margin-left: 250px;
-        }
-
-        .comodolbl {
-            margin-left: -40px;
-        }
-
-        .comodo {
-            width: 250px;
-            margin-left: 50px;
-        }
-
-        .container_img {
-
-            float: right;
-        }
-
-        .coitainer_comodo {
-
-            float: left;
-        }
-
-        .btn-success{
-            background-color: #32CD32;
-            background-color: #32CD32;
-            border: 4px;
-        }
-
-        .btn_x {
-            height: 40px !important;
-        }
-
-        .container_geral {
-            border: 2px;
-            border-color: #333;
-            border-style: solid;
-            width: auto;
-            height: 200px;
-            overflow: auto;
-            margin-left: 10px;
-            margin-right: 10px;
-        }
-
-        .imgdiv {
-            border: 2px;
-            border-bottom: 0px;
-            border-top: 0px;
-            border-left: 0px;
-            border-color: #333;
-            border-style: solid;
-
-        }
-
-        /* Improved styling for the image and comodo and quantidade rows */
-        .form-group.row {
-            margin-bottom: 0;
-        }
-
-        .input-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0px;
-            /* Reduce the spacing here */
-        }
-
-        .input-group .form-control {
-            flex: 100px;
-            margin-right: 0px;
-            /* Reduce the margin-right to bring them closer */
-        }
-
-        .coitainer_img{
-            margin-top: 0px;
-
-        }
-
-        .coitainer_comodo{
-            margin-top: 10px;
-        }
-
-        .imgipt{
-           padding: 3px 10px 30px 10px;
-            height: 40px;
-            margin-top: 10px;
-        }
-
-</style>
-
+    <link rel="stylesheet" type="text/css" href="css/cadastroImoveis.css">
 </head>
 
 <body>
@@ -258,11 +27,11 @@
 
         <!-- LINHA 1: inputs {modelo e preço} -->
         <center>
-            <form>
+            <form id="cad_imovel" method="post" enctype="multipart/form-data">
                 <div class="form-group row ">
                     <label for="preco" class="col-sm-1 preco ">Preço:</label>
                     <div class="col-sm-2 ">
-                        <input type="text" class="form-control preco1" id="preco" name="preco" required="required">
+                        <input type="text" class="form-control preco1" style="text-align: right;" id="valor" name="valor" required="required">
                     </div>
 
                     <label for="modelo" class="col-sm-1. modelo ">Espécie:</label>
@@ -292,13 +61,17 @@
                     </div>
                     <div class="col-md-1">
                         <label for="tipo_venda"> Venda</label>
-                            <input type="radio" class="form-control" id="tipo_venda" name="tipo" style="height:25px;width:50px;" required="required">  
-                       </div>
-                <div style="border-right:0px;border-top:0px;border-bottom:0px;border-left:3px;border-style:solid;border-color:rgba(81,80,80,0.692);height:60px;" ></div>
-                       <div class=" col-sm-1" >  
-                       <label for="tipo_locacao"> Locação</label>
-                       <input type="radio" class="form-control" style=" height:25px;width:50px;" id="tipo_locacao" name="tipo" required="required">
-                   </div>
+                        <input type="radio" class="form-control" id="tipo_venda" name="peracao"
+                            style="height:25px;width:50px;" required="required">
+                    </div>
+                    <div
+                        style="border-right:0px;border-top:0px;border-bottom:0px;border-left:3px;border-style:solid;border-color:rgba(81,80,80,0.692);height:60px;">
+                    </div>
+                    <div class=" col-sm-1">
+                        <label for="tipo_locacao"> Locação</label>
+                        <input type="radio" class="form-control" style=" height:25px;width:50px;" id="locacao"
+                            name="tipo_operacao" required="required">
+                    </div>
                 </div>
         </center>
 
@@ -322,16 +95,70 @@
             </div>
             <div class="form-group col-md-3">
                 <label for="estado">Estado:</label>
-                <select class="form-control" id="estado" name="estado" required="required">
-                    <option>Selecione...</option>
+                <select class="form-control" name="uf_estado" id="uf_estado" required="required" style="color: #757575">
+                    <option value="selected" selected>Selecione o estado...</option>
                     <option value="AC">Acre</option>
                     <option value="AL">Alagoas</option>
-                    <!-- adicionar mais estados aqui-->
+                    <option value="AP">Amapá</option>
+                    <option value="AM">Amazonas</option>
+                    <option value="BA">Bahia</option>
+                    <option value="CE">Ceará</option>
+                    <option value="DF">Distrito Federal</option>
+                    <option value="ES">Espírito Santo</option>
+                    <option value="GO">Goiás</option>
+                    <option value="MA">Maranhão</option>
+                    <option value="MT">Mato Grosso</option>
+                    <option value="MS">Mato Grosso do Sul</option>
+                    <option value="MG">Minas Gerais</option>
+                    <option value="PA">Pará</option>
+                    <option value="PB">Paraíba</option>
+                    <option value="PR">Paraná</option>
+                    <option value="PE">Pernambuco</option>
+                    <option value="PI">Piauí</option>
+                    <option value="RJ">Rio de Janeiro</option>
+                    <option value="RN">Rio Grande do Norte</option>
+                    <option value="RS">Rio Grande do Sul</option>
+                    <option value="RO">Rondônia</option>
+                    <option value="RR">Roraima</option>
+                    <option value="SC">Santa Catarina</option>
+                    <option value="SP">São Paulo</option>
+                    <option value="SE">Sergipe</option>
+                    <option value="TO">Tocantins</option>
                 </select>
             </div>
             <div class="form-group col-md-3">
                 <label for="cidade">Cidade:</label>
-                <input type="text" class="form-control" id="cidade" name="cidade" required="required">
+                <select class="form-control" name="cidade" id="cidade" required="required" style="color: #757575">
+                    <option value="selected" selected>Selecione a sua cidade...</option>
+                </select>
+
+                <script>
+                    const ufEstado = document.getElementById('uf_estado');
+                    const idCidade = document.getElementById('cidade');
+
+                    ufEstado.addEventListener('change', () => {
+                        const selectedUf = ufEstado.value;
+
+                        if (selectedUf !== 'selected') {
+
+                            // Faz a solicitação AJAX para obter as cidades
+                            fetch(`php/consulta.php?uf_estado=${selectedUf}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    idCidade.innerHTML = '<option value="selected" selected>Selecione a sua cidade...</option>';
+                                    data.forEach(cidades => {
+                                        const option = document.createElement('option');
+                                        option.value = cidades.id;
+                                        option.textContent = cidades.nome;
+                                        idCidade.appendChild(option);
+                                    });
+                                })
+                                .catch(error => console.error('Erro na solicitação:', error));
+                        } else {
+                            idCidade.innerHTML = '<option value="selected" selected>Selecione a sua cidade...</option>';
+                        }
+                    });
+                </script>
             </div>
             <div class="form-group col-md-3">
                 <label for="numero">Número:</label>
@@ -347,21 +174,23 @@
         <!-- LINHA 5: Area do terreno e Area construída -->
         <div class="form-group row">
             <div class="col-md-3">
-                <label for="area-terreno">Área do Terreno (m²):</label>
-                <input type="number" class="form-control" id="area-terreno" name="area-terreno" required="required">
+                <label for="area-terreno">Terreno (m²):</label>
+                <input type="number" class="form-control" id="tamanho_terreno" name="tamanho_terreno" required="required">
             </div>
             <div class="col-md-3">
-                <label for="area-construida">Área Construída (m²):</label>
-                <input type="number" class="form-control" id="area-construida" name="area-construida" required="required">
+                <label for="area-construida">Moradia (m²):</label>
+                <input type="number" class="form-control" id="tamanho_moradia" name="tamanho_moradia"
+                    required="required">
             </div>
-          
+
         </div>
 
 
         <!-- LINHA 6 : informações complementares  -->
         <div class="form-group">
-            <label for="informacoes-complementares">Informações Complementares:</label>
-            <textarea class="form-control" id="informacoes-complementares" name="informacoes-complementares" placeholder="Descreva o seu imóvel!" rows="3"></textarea>
+            <label for="informacoes_complementares">Informações Complementares:</label>
+            <textarea class="form-control" style="max-height: 70px; min-height: 70px;" id="info_complementares" name="info_complementares"
+                placeholder="Descreva o seu imóvel" rows="3"></textarea>
         </div>
         <br>
 
@@ -468,19 +297,51 @@
             <button type="submit" class="btn btn-success">Cadastrar Imóvel</button>
         </center>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </form>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('cad_imovel');
 
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
 
+                const formData = new FormData(form);
+                const formObject = {};
+                formData.forEach((value, key) => {
+                    formObject[key] = value;
+                });
 
+                try {
+                    const response = await fetch('http://localhost:8080/imovel', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formObject),
+                    });
 
+                    if (response.ok) {
+                        window.location.href = 'cadastroImoveis.html';
+                        console.log('Imóvel cadastrado com sucesso');
+                    } else {
+                        console.error('Erro ao cadastrar imóvel:', response.status);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            });
+        });
 
+    </script>
 
-</form>
+</body>
 
-
-</body></html>
+</html>

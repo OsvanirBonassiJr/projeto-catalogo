@@ -73,8 +73,8 @@ const Imovel = sequelize.define(
     },
     tipo_operacao: { type: DataTypes.STRING, },
     zona: { type: DataTypes.STRING, },
-    id_cidade: { type: DataTypes.STRING, },
-    estado: { type: DataTypes.STRING, },
+    cidade: { type: DataTypes.STRING, },
+    uf_estado: { type: DataTypes.STRING, },
     cep: { type: DataTypes.STRING, },
     especie: { type: DataTypes.STRING, },
     valor: { type: DataTypes.STRING, },
@@ -163,7 +163,8 @@ const doc_Ope = sequelize.define(
 );
 
 
-//funções
+
+//Funções Usuario
 
 
 async function criarUsuario(req, res) {
@@ -260,9 +261,59 @@ app.post('/usuarios', async (req, res) => {
   }
 });
 
+
+//Funções Imovel
+
+
+async function criarImovel(req, res) {
+  try {
+    if (!req.body.tipo_operacao || !req.body.zona || !req.body.cidade || !req.body.estado || !req.body.especie || !req.body.valor || !req.body.bairro || !req.body.rua || !req.body.cep || !req.body.numero || !req.body.tamanho_terreno || !req.body.tamanho_moradia) {
+      return res.status(422).json({ msg: "Campos obrigatórios não foram preenchidos", camposFaltantes: [tipo_operacao, zona, cidade, estado, especie, valor, bairro, rua, cep, numero, tamanho_terreno, tamanho_moradia] });
+    }
+
+    const imovel = new Imovel();
+    imovel.id_usuario = req.body.id_usuario;
+    imovel.tipo_operacao = req.body.tipo_operacao;
+    imovel.zona = req.body.zona;
+    imovel.cidade = req.body.cidade;
+    imovel.uf_estado = req.body.estado;
+    imovel.cep = req.body.cep;
+    imovel.especie = req.body.especie;
+    imovel.valor = req.body.valor;
+    imovel.bairro = req.body.bairro;
+    imovel.rua = req.body.rua;
+    imovel.numero = req.body.numero;
+    imovel.complemento = req.body.complemento;
+    imovel.tamanho_terreno = req.body.tamanho_terreno;
+    imovel.tamanho_moradia = req.body.tamanho_moradia;
+    imovel.info_complementares = req.body.info_complementares;
+
+    await imovel.save();
+    res.status(201).json({ msg: 'Imóvel criado com sucesso' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao criar imóvel' });
+  }
+}
+
+async function listarImoveis(req, res) {
+  try {
+    const imoveis = await Imovel.findAll();
+    res.json(imoveis);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao listar imóveis' });
+  }
+}
+
+//usuarios
 app.post('/usuario', criarUsuario);
 app.post('/login', login);
 app.get('/usuarios', listarUsuarios);
 app.delete('/usuarios/:id_usuario', deletarUsuario);
 app.put('/usuarios/:id_usuario', atualizarUsuario);
 app.patch('/usuarios/:id_usuario', atualizarUsuarioParcialmente);
+
+//imoveis
+app.post('/imovel', criarImovel);
+app.get('/imovel', listarImoveis);
