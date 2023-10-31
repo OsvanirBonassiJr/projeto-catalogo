@@ -1,4 +1,4 @@
-//npm install jsonwebtoken body-parser express pg sequelize bcrypt dotenv cors
+//npm install jsonwebtoken body-parser express pg sequelize bcrypt dotenv cors multer
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
@@ -6,6 +6,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const app = express();
 const cors = require('cors');
+const multer = require('multer');
+
+const storage = multer.memoryStorage(); // Armazena a imagem na memória
+const upload = multer({ storage: storage });
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -71,6 +75,11 @@ const Imovel = sequelize.define(
       primaryKey: true,
       autoIncrement: true
     },
+
+    imagens: {
+      type: DataTypes.BLOB, //BLOB para armazenar imagens binárias
+    },
+
     tipo_operacao: { type: DataTypes.STRING, },
     zona: { type: DataTypes.STRING, },
     cidade: { type: DataTypes.STRING, },
@@ -90,9 +99,9 @@ const Imovel = sequelize.define(
     timestamps: false,
     paranoid: true, //utilizado quando uma tabela não será deletada OBS: O campo deverá ser timestamp
   }
-)
+);
 
-const Espec = sequelize.define(
+const Especificacao = sequelize.define(
   'especificacoes',
   {
     id_espec: {
@@ -100,17 +109,27 @@ const Espec = sequelize.define(
       primaryKey: true,
       autoIncrement: true
     },
-    id_imovel: { type: DataTypes.STRING },
+    id_imovel: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'imoveis',
+        key: 'id_imovel'
+      }
+    },
     descricao: { type: DataTypes.STRING },
     medida: { type: DataTypes.STRING },
-    quantidade: { type: DataTypes.STRING },
+    quantidade: { type: DataTypes.INTEGER }
   },
   {
     timestamps: false,
-    paranoid: true,
+    paranoid: true
   }
 );
 
+Imovel.hasMany(Especificacao, { foreignKey: 'id_imovel' });
+Especificacao.belongsTo(Imovel, { foreignKey: 'id_imovel' });
+
+/*
 const ft_Espec = sequelize.define(
   'fotos_espec',
   {
@@ -126,8 +145,8 @@ const ft_Espec = sequelize.define(
     timestamps: false,
     paranoid: true,
   }
-);
-
+);*/
+/*
 const arq_Doc = sequelize.define(
   'arquivos_doc',
   {
@@ -143,10 +162,10 @@ const arq_Doc = sequelize.define(
     timestamps: false,
     paranoid: true,
   }
-);
-
+);*/
+/*
 const doc_Ope = sequelize.define(
-  'documentos_operacao',
+  'doc_ope',
   {
     id_doc: {
       type: DataTypes.INTEGER,
@@ -160,7 +179,7 @@ const doc_Ope = sequelize.define(
     timestamps: false,
     paranoid: true,
   }
-);
+);*/
 
 
 
@@ -267,32 +286,53 @@ app.post('/usuarios', async (req, res) => {
 
 async function criarImovel(req, res) {
   try {
-    if (!req.body.tipo_operacao || !req.body.zona || !req.body.cidade || !req.body.estado || !req.body.especie || !req.body.valor || !req.body.bairro || !req.body.rua || !req.body.cep || !req.body.numero || !req.body.tamanho_terreno || !req.body.tamanho_moradia) {
-      return res.status(422).json({ msg: "Campos obrigatórios não foram preenchidos", camposFaltantes: [tipo_operacao, zona, cidade, estado, especie, valor, bairro, rua, cep, numero, tamanho_terreno, tamanho_moradia] });
+    // Outros campos do formulário
+    const { tipo_operacao, zona, cidade, estado, especie, valor, bairro, rua, cep, numero, tamanho_terreno, tamanho_moradia, info_complementares } = req.body;
+
+    // Verifique se há uma imagem no corpo da solicitação
+    if (!req.file) {
+      return res.status(422).json({ msg: 'Imagem do imóvel não foi enviada' });
     }
 
-    const imovel = new Imovel();
-    imovel.id_usuario = req.body.id_usuario;
-    imovel.tipo_operacao = req.body.tipo_operacao;
-    imovel.zona = req.body.zona;
-    imovel.cidade = req.body.cidade;
-    imovel.uf_estado = req.body.estado;
-    imovel.cep = req.body.cep;
-    imovel.especie = req.body.especie;
-    imovel.valor = req.body.valor;
-    imovel.bairro = req.body.bairro;
-    imovel.rua = req.body.rua;
-    imovel.numero = req.body.numero;
-    imovel.complemento = req.body.complemento;
-    imovel.tamanho_terreno = req.body.tamanho_terreno;
-    imovel.tamanho_moradia = req.body.tamanho_moradia;
-    imovel.info_complementares = req.body.info_complementares;
+    const imovel = new Imovel({
+      tipo_operacao,
+      zona,
+      cidade,
+      uf_estado: estado,
+      cep,
+      especie,
+      valor,
+      bairro,
+      rua,
+      numero,
+      complemento: req.body.complemento,
+      tamanho_terreno,
+      tamanho_moradia,
+      info_complementares,
+      imagens: req.file.buffer, // Armazena a imagem binária no banco de dados
+    });
+
+        // Process room specifications
+        const roomSpecs = req.body.roomSpecs; // Assuming you have an array of room specifications in the request body
+        if (roomSpecs && roomSpecs.length > 0) {
+          for (const roomSpec of roomSpecs) {
+            const { descricao, medida, quantidade } = roomSpec;
+            await Especificacao.create({
+              id_imovel: imovel.id_imovel, // Assign the Imovel ID as the foreign key
+              descricao,
+              medida,
+              quantidade
+            });
+          }
+        }
 
     await imovel.save();
     res.status(201).json({ msg: 'Imóvel criado com sucesso' });
+    alert ('imóvel criado com sucesso');
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao criar imóvel' });
+    alert ('erro ao cadastrar imóvel')
   }
 }
 

@@ -1,6 +1,7 @@
 <html>
 
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cadastro de Imóvel</title>
@@ -31,7 +32,8 @@
                 <div class="form-group row ">
                     <label for="preco" class="col-sm-1 preco ">Preço:</label>
                     <div class="col-sm-2 ">
-                        <input type="text" class="form-control preco1" style="text-align: right;" id="valor" name="valor" required="required">
+                        <input type="text" class="form-control " style="text-align: right;" id="valor" name="valor"
+                            required="required">
                     </div>
 
                     <label for="modelo" class="col-sm-1. modelo ">Espécie:</label>
@@ -61,7 +63,7 @@
                     </div>
                     <div class="col-md-1">
                         <label for="tipo_venda"> Venda</label>
-                        <input type="radio" class="form-control" id="tipo_venda" name="peracao"
+                        <input type="radio" class="form-control" id="tipo_venda" name="tipo_operacao"
                             style="height:25px;width:50px;" required="required">
                     </div>
                     <div
@@ -69,7 +71,7 @@
                     </div>
                     <div class=" col-sm-1">
                         <label for="tipo_locacao"> Locação</label>
-                        <input type="radio" class="form-control" style=" height:25px;width:50px;" id="locacao"
+                        <input type="radio" class="form-control" style=" height:25px;width:50px;" id="wtipo_locacao"
                             name="tipo_operacao" required="required">
                     </div>
                 </div>
@@ -171,26 +173,77 @@
         </div>
         <br>
 
-        <!-- LINHA 5: Area do terreno e Area construída -->
+        <!-- LINHA 5: Área do terreno e Área construída -->
+        <!-- LINHA 5: Área do terreno e Área construída -->
         <div class="form-group row">
-            <div class="col-md-3">
+            <div class="col-md-3 terrenominpt">
                 <label for="area-terreno">Terreno (m²):</label>
-                <input type="number" class="form-control" id="tamanho_terreno" name="tamanho_terreno" required="required">
-            </div>
-            <div class="col-md-3">
-                <label for="area-construida">Moradia (m²):</label>
-                <input type="number" class="form-control" id="tamanho_moradia" name="tamanho_moradia"
-                    required="required">
-            </div>
+                <input type="text" class="form-control" id="tamanho_terreno" style="text-align: right;"
+                    name="tamanho_terreno" required="required" oninput="formatDecimal(this)">
+                <p>
 
+
+            </div>
+            <div class="col-md-3 moradiaminpt">
+                <label for="area-construida">Moradia (m²):</label>
+                <input type="text" class="form-control" style="text-align: right;" id="tamanho_moradia"
+                    name="tamanho_moradia" required="required" oninput="formatDecimal(this)">
+                <p>
+            </div>
         </div>
+
+        <script>
+            // Função para formatar os campos "Terreno (m²)" e "Moradia (m²)"
+            function formatAreaInput(input) {
+
+                const value = input.value.replace(/[^0-9]/g, ''); // Remove caracteres não numéricos
+
+                if (value == "") {
+                    value = 0;
+                }
+
+                var formattedValue = (parseFloat(value) / 100).toLocaleString('pt-BR', {
+                    style: 'decimal'
+                });
+
+                /*
+    var formattedValue = (value).toLocaleString('pt-BR', {
+        style: 'decimal'
+    });
+*/
+
+                input.value = formattedValue;
+            }
+
+            // Função para lidar com a entrada no campo "Terreno (m²)"
+            function handleTerrenoInput() {
+                const terrenoInput = document.getElementById('tamanho_terreno');
+                formatAreaInput(terrenoInput);
+            }
+
+            // Função para lidar com a entrada no campo "Moradia (m²)"
+            function handleMoradiaInput() {
+                const moradiaInput = document.getElementById('tamanho_moradia');
+                formatAreaInput(moradiaInput);
+            }
+
+            // Adicione eventos de entrada para os campos "Terreno (m²)" e "Moradia (m²)"
+            var terrenoInput = document.getElementById('tamanho_terreno');
+            var moradiaInput = document.getElementById('tamanho_moradia');
+
+            terrenoInput.addEventListener('input', handleTerrenoInput);
+            moradiaInput.addEventListener('input', handleMoradiaInput);
+
+        </script>
+
+
 
 
         <!-- LINHA 6 : informações complementares  -->
         <div class="form-group">
             <label for="informacoes_complementares">Informações Complementares:</label>
-            <textarea class="form-control" style="max-height: 70px; min-height: 70px;" id="info_complementares" name="info_complementares"
-                placeholder="Descreva o seu imóvel" rows="3"></textarea>
+            <textarea class="form-control" style="max-height: 70px; min-height: 70px;" id="info_complementares"
+                name="info_complementares" placeholder="Descreva o seu imóvel" rows="3"></textarea>
         </div>
         <br>
 
@@ -236,7 +289,7 @@
                 newRow.className = "input-group mb-3 col-md-11 coitainer_img";
                 //Input da imagem na linha 410:
                 newRow.innerHTML = `
-        <input type="file" class="form-control imgipt" id="imagem" name="imagem" size="400" required="required">
+                <input type="file" class="form-control imgipt" id="imagem" name="imagem" accept="image/*" required="required">
             <button class="btn btn-danger btn_x" style="margin-top:10px;" onclick="deleteImageDiv(this)">X</button>
         `;
                 imageRows.appendChild(newRow);
@@ -261,8 +314,6 @@
                 comodoAndQuantidadeRows.appendChild(newRow);
             }
 
-
-
             // Função para formatar o input do preço em moeda R$
             function formatCurrency(input) {
                 // Remove todos os caracteres não numéricos do valor de entrada
@@ -286,10 +337,11 @@
             }
 
             // Adicione um evento de input ao input do preço para formatar continuamente o valor
-            var precoInput = document.getElementById('preco');
+            var precoInput = document.getElementById('valor');
             precoInput.addEventListener('input', function () {
                 formatCurrency(precoInput);
             });
+
         </script>
 
         <br><!-- BOTÃO PARA SALVAR!-->
@@ -307,38 +359,34 @@
     </form>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('cad_imovel');
+       document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('cad_imovel');
 
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-                const formData = new FormData(form);
-                const formObject = {};
-                formData.forEach((value, key) => {
-                    formObject[key] = value;
-                });
+    const formData = new FormData(form);
+    // Adicione a imagem ao FormData
+    formData.append('imagem', document.getElementById('imagem').files[0]);
 
-                try {
-                    const response = await fetch('http://localhost:8080/imovel', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(formObject),
-                    });
+    try {
+      const response = await fetch('http://localhost:8080/imovel', {
+        method: 'POST',
+        body: formData, // Use FormData para incluir a imagem
+      });
 
-                    if (response.ok) {
-                        window.location.href = 'cadastroImoveis.html';
-                        console.log('Imóvel cadastrado com sucesso');
-                    } else {
-                        console.error('Erro ao cadastrar imóvel:', response.status);
-                    }
-                } catch (error) {
-                    console.error(error);
-                }
-            });
-        });
+      if (response.ok) {
+        window.location.href = 'cadastroImoveis.html';
+        alert('Imóvel cadastrado com sucesso');
+      } else {
+        alert('Erro ao cadastrar imóvel:', response.status);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });
+});
+
 
     </script>
 
