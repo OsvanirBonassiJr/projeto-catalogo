@@ -146,7 +146,7 @@ label {
 
 .quantidade {
     width: 80px;
-    margin-left: 250px;
+    margin-left: 270px;
 }
 
 .comodolbl {
@@ -154,8 +154,8 @@ label {
 }
 
 .comodo {
-    width: 250px;
-    margin-left: 50px;
+    width: 300px;
+    margin-left: 2px;
 }
 
 .container_img {
@@ -250,4 +250,11 @@ label {
     position: absolute;
     margin-left: 249px;
     margin-top: -41px ;
+}
+
+.medida{
+     width: 100px !important; 
+    height: 40px !important;
+    margin-left: 190px !important;
+
 }
