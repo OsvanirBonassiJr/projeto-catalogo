@@ -154,8 +154,8 @@ label {
 }
 
 .comodo {
-    width: 300px;
-    margin-left: 2px;
+    width: 300px !important;
+    margin-left: 2px !important;
 }
 
 .container_img {

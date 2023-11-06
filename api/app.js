@@ -8,7 +8,7 @@ const app = express();
 const cors = require('cors');
 const multer = require('multer');
 
-const storage = multer.memoryStorage(); // Armazena a imagem na memória
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 app.use(cors());
@@ -76,9 +76,7 @@ const Imovel = sequelize.define(
       autoIncrement: true
     },
 
-    imagens: {
-      type: DataTypes.BLOB, //BLOB para armazenar imagens binárias
-    },
+    imagens: { type: DataTypes.ARRAY(DataTypes.BLOB) },
 
     tipo_operacao: { type: DataTypes.STRING, },
     zona: { type: DataTypes.STRING, },
@@ -191,13 +189,15 @@ async function criarUsuario(req, res) {
     if (!req.body.nome || !req.body.sobrenome || !req.body.email || !req.body.senha || !req.body.cpf || !req.body.cidade || !req.body.data_nasc || !req.body.rg || !req.body.cep || !req.body.telefone) {
       return res.status(422).json({ msg: "Campos obrigatórios não foram preenchidos" });
     }
-
+    console.log(req.body)
     const usuario = await Usuario.create(req.body);
     res.status(201).json(usuario);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao criar usuário' });
   }
+
+
 }
 
 //funcionando
@@ -283,18 +283,14 @@ app.post('/usuarios', async (req, res) => {
 
 //Funções Imovel
 
+app.post('/imovel', upload.single('imagens'), criarImovel);
 
 async function criarImovel(req, res) {
   try {
     // Outros campos do formulário
-    const { tipo_operacao, zona, cidade, estado, especie, valor, bairro, rua, cep, numero, tamanho_terreno, tamanho_moradia, info_complementares } = req.body;
+    const { tipo_operacao, zona, cidade, estado, especie, valor, bairro, rua, cep, numero, complemento, tamanho_terreno, tamanho_moradia, info_complementares, imagens } = req.body;
 
-    // Verifique se há uma imagem no corpo da solicitação
-    if (!req.file) {
-      return res.status(422).json({ msg: 'Imagem do imóvel não foi enviada' });
-    }
-
-    const imovel = new Imovel({
+    const imovel = await Imovel.create({
       tipo_operacao,
       zona,
       cidade,
@@ -305,34 +301,33 @@ async function criarImovel(req, res) {
       bairro,
       rua,
       numero,
-      complemento: req.body.complemento,
+      complemento,
       tamanho_terreno,
       tamanho_moradia,
       info_complementares,
-      imagens: req.file.buffer, // Armazena a imagem binária no banco de dados
+      imagens, // Salve o array de imagens no campo "imagens"
     });
 
-        // Process room specifications
-        const roomSpecs = req.body.roomSpecs; // Assuming you have an array of room specifications in the request body
-        if (roomSpecs && roomSpecs.length > 0) {
-          for (const roomSpec of roomSpecs) {
-            const { descricao, medida, quantidade } = roomSpec;
-            await Especificacao.create({
-              id_imovel: imovel.id_imovel, // Assign the Imovel ID as the foreign key
-              descricao,
-              medida,
-              quantidade
-            });
-          }
-        }
+
+    // Process room specifications
+    const roomSpecs = req.body.roomSpecs; // Assuming you have an array of room specifications in the request body
+    if (roomSpecs && roomSpecs.length > 0) {
+      for (const roomSpec of roomSpecs) {
+        const { descricao, medida, quantidade } = roomSpec;
+        await Especificacao.create({
+          id_imovel: imovel.id_imovel, // Assign the Imovel ID as the foreign key
+          descricao,
+          medida,
+          quantidade
+        });
+      }
+    }
 
     await imovel.save();
     res.status(201).json({ msg: 'Imóvel criado com sucesso' });
-    alert ('imóvel criado com sucesso');
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao criar imóvel' });
-    alert ('erro ao cadastrar imóvel')
   }
 }
 
@@ -355,5 +350,7 @@ app.put('/usuarios/:id_usuario', atualizarUsuario);
 app.patch('/usuarios/:id_usuario', atualizarUsuarioParcialmente);
 
 //imoveis
-app.post('/imovel', criarImovel);
-app.get('/imovel', listarImoveis);
+
+
+// Rota para listar imóveis
+app.get('/imoveis', listarImoveis);

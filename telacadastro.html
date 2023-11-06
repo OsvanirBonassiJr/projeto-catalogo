@@ -48,7 +48,7 @@
 
                 <input type="text" oninput="mascara2(this)" name="telefone" id="telefone" required="required" placeholder="Telefone"></input>
 
-                <input type="number" max="8" min="8" name="cep" id="cep" required="required" placeholder="CEP"></input>
+                <input type="number" name="cep" id="cep" required="required" placeholder="CEP"></input>
 
                 <select name="uf_estado" id="uf_estado" required="required" style="color: #757575">
                     <option value="selected" selected>Selecione o estado...</option>
@@ -233,7 +233,7 @@ if (v.length === 1) {
                 });
 
                 if (response.ok) {
-                    window.location.href = 'index.html';
+
                     console.log('Cadastro bem-sucedido');
                 } else {
                     console.error('Erro ao cadastrar:', response.status);
