@@ -3,7 +3,20 @@
 
 <head>
     <style>
-        body{
+        .card {
+            position: relative;
+        }
+
+        .card-button-container {
+            position: absolute;
+            bottom: 30px;
+            /* Ajuste conforme necessário para a posição desejada */
+            left: 20px;
+            /* Ajuste conforme necessário para a posição desejada */
+        }
+
+
+        body {
             background-image: url('imagens/bg1.jpg') !important;
         }
     </style>
@@ -172,25 +185,25 @@
                 <ul class="navbar-nav right"> <!-- Adiciona ml-auto para posicionar à direita -->
                     <li class="nav-item">
                         <a class="nav-link" href="infoUsuario.html">Informações do usuário</a>
-                      </li>
+                    </li>
 
                     <ul class="navbar-nav right"> <!-- Adiciona ml-auto para posicionar à direita -->
-                        
-                            <li class="nav-item">
+
+                        <li class="nav-item">
                                 <a class="nav-link" href="cadastroImoveis.html">Cadastrar imóvel</a>
                               </li>
-                        
+
 
                         <!--Botões da navbar-->
 
                         <li class="nav-item">
                             <a class="nav-link" href="telaLogin.html">Entrar</a>
-                          </li>
+                        </li>
 
 
-                          <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link" href="telaCadastro.html">Cadastre-se</a>
-                          </li>
+                        </li>
                     </ul>
             </div>
             </div>
@@ -201,101 +214,88 @@
     <p>
     <p>
     <p> <!--apagar os containers desnecessários ao implementar a api -->
-        <!--1°-->
+
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-4 card al album" style="width: 18rem;">
-                <img src="imagens/flor.jpg" class="card-img-left ft" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Venda</h5> <!--nome da casa ou do proprietario. pode ser compra/aluguel-->
-                    <p class="card-text txt-album">Some quick example text to build on the card title and make up the
-                        bulk of the
-                        card's content.</p> <!-- uma descrição do produto-->
-                    <a href="#" class="btn btn-primary btn-album">Visualizar</a>
-                </div>
-            </div>
-
-            <div class="col-md-4  card al album" style="width: 18rem;">
-                <img src="imagens/flor.jpg" class="card-img-top ft" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Aluguel</h5> <!--nome da casa ou do proprietario. pode ser compra/aluguel-->
-                    <p class="card-text txt-album">Some quick example text to build on the card title and make up the
-                        bulk of the
-                        card's content.</p> <!-- uma descrição do produto-->
-                    <a href="#" class="btn btn-primary btn-album">Visualizar</a>
-                </div>
-            </div>
-
-            <div class="col-md-4  card al album" style="width: 18rem;">
-                <img src="imagens/flor.jpg" class="card-img-top ft" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Jonas Giron</h5>
-                    <!--nome da casa ou do proprietario. pode ser compra/aluguel-->
-                    <p class="card-text txt-album">Some quick example text to build on the card title and make up the
-                        bulk of the
-                        card's content.</p> <!-- uma descrição do produto-->
-                    <a href="#" class="btn btn-primary btn-album">Visualizar</a>
-                </div>
-            </div>
-
-            <div class="col-md-4  card al album" style="width: 18rem;">
-                <img src="imagens/flor.jpg" class="card-img-top ft" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Geraldo Alberto Dacos...</h5>
-                    <!--nome da casa ou do proprietario. pode ser compra/aluguel-->
-                    <p class="card-text txt-album">Some quick example text to build on the card title and make up the
-                        bulk of the
-                        card's content.</p> <!-- uma descrição do produto-->
-                    <a href="#" class="btn btn-primary btn-album">Visualizar</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <p>
-        <!--2°-->
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-4 card al album" style="width: 18rem;">
-                <img src="imagens/flor.jpg" class="card-img-left ft" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Aluguel</h5> <!--nome da casa ou do proprietario. pode ser compra/aluguel-->
-                    <p class="card-text txt-album">Some quick example text to build on the card title and make up the
-                        bulk of the
-                        card's content.</p> <!-- uma descrição do produto-->
-                    <a href="#" class="btn btn-primary btn-album">Visualizar</a>
-                </div>
-            </div>
-
-            <div class="col-md-4 card al album" style="width: 18rem;">
-                <img src="imagens/flor.jpg" class="card-img-top ft" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Aluguel</h5> <!--nome da casa ou do proprietario. pode ser compra/aluguel-->
-                    <p class="card-text txt-album">Some quick example text to build on the card title and make up the
-                        bulk of the
-                        card's content.</p> <!-- uma descrição do produto-->
-                    <a href="#" class="btn btn-primary btn-album">Visualizar</a>
-                </div>
-            </div>
-
-            <div class="col-md-4 card al album" style="width: 18rem;">
+        <div class="card-group">
+            <div class="card">
                 <img src="imagens/flor.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">Aluguel</h5> <!--nome da casa ou do proprietario. pode ser compra/aluguel-->
-                    <p class="card-text txt-album">Some quick example text to build on the card title and make up the
-                        bulk of the
-                        card's content.</p> <!-- uma descrição do produto-->
-                    <a href="#" class="btn btn-primary btn-album">Visualizar</a>
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">his card has supporting text below as a natural lead-in to additional
+                        content.sfsfsfsfdsfasfsa sasdasd asdadada sasdfasf adadf asdfads fa sddsa f dfasd fasdf asdf
+                        as...</p>
+                    <a href="#" class="btn btn-primary btn-album ">Visualizar</a>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary"></small>
                 </div>
             </div>
-
-            <div class="col-md-4 card al album" style="width: 18rem;">
-                <img src="imagens/flor.jpg" class="card-img-top ft" alt="...">
+            <div class="card">
+                <img src="imagens/flor.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">Aluguel</h5> <!--nome da casa ou do proprietario. pode ser compra/aluguel-->
-                    <p class="card-text txt-album">Some quick example text to build on the card title and make up the
-                        bulk of the
-                        card's content.</p> <!-- uma descrição do produto-->
-                    <a href="#" class="btn btn-primary btn-album">Visualizar</a>
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This card has supporting text below as a natural lead-in to additional
+                        content.sfsfsfsfdsfasfsa sasdasd asdadada sasdfasf adadf asdfads fa sddsa f dfasd fasdf asdf
+                        as...
+                    </p>
+                    <a href="#" class="btn btn-primary btn-album ">Visualizar</a>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary"></small>
+                </div>
+            </div>
+            <div class="card">
+                <img src="imagens/flor.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">his card has supporting text below as a natural lead-in to additional
+                        content.sfsfsfsfdsfasfsa sasdasd asdadada sasdfasf adadf asdfads fa sddsa f dfasd fasdf asdf
+                        as...</p>
+                    <a href="#" class="btn btn-primary btn-album ">Visualizar</a>
+                </div>
+                <div class="card-footer">
+                    <small class="text-body-secondary"></small>
+                </div>
+            </div>
+            <div class="card-group">
+                <div class="card">
+                    <img src="imagens/flor.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">his card has supporting text below as a natural lead-in to additional
+                            content.sfsfsfsfdsfasfsa sasdasd asdadada sasdfasf adadf asdfads fa sddsa f dfasd fasdf asdf
+                            as...</p>
+                        <a href="#" class="btn btn-primary btn-album ">Visualizar</a>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-body-secondary"></small>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="imagens/flor.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">his card has supporting text below as a natural lead-in to additional
+                            content.sfsfsfsfdsfasfsa sasdasd asdadada sasdfasf adadf asdfads fa sddsa f dfasd fasdf asdf
+                            as...</p>
+                        <a href="#" class="btn btn-primary btn-album ">Visualizar</a>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-body-secondary"></small>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="imagens/flor.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">his card has supporting text below as a natural lead-in to additional
+                            content.sfsfsfsfdsfasfsa sasdasd asdadada sasdfasf adadf asdfads fa sddsa f dfasd fasdf asdf
+                            as...</p>
+                        <a href="#" class="btn btn-primary btn-album">Visualizar</a>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-body-secondary"></small>
+                    </div>
                 </div>
             </div>
         </div>

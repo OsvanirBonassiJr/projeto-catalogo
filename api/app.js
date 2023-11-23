@@ -2,18 +2,17 @@
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const app = express();
 const cors = require('cors');
 const multer = require('multer');
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
-
-app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
+app.use(cors());
+
+const upload = multer({ dest: '../imagens' });
 
 app.listen(8080, async () => {
   console.log('App iniciado');
@@ -25,6 +24,10 @@ app.listen(8080, async () => {
     console.error('Erro ao conectar ao banco de dados:', error);
   }
 });
+
+//------------------------------------------
+
+
 
 const { Sequelize, DataTypes } = require('sequelize');
 
@@ -39,15 +42,13 @@ const sequelize = new Sequelize({ //troque para seu perfil
 
 
 //Definição das tabelas
-
-
 const Usuario = sequelize.define(
   'usuarios',
   {
     id_usuario: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autoIncrement: true // Se transforma em serial automaticamente no postgres
+      autoIncrement: true
     },
     nome: { type: DataTypes.STRING, },
     sobrenome: { type: DataTypes.STRING, },
@@ -63,7 +64,7 @@ const Usuario = sequelize.define(
   },
   {
     timestamps: false,
-    paranoid: true, //utilizado quando uma tabela não será deletada OBS: O campo deverá ser timestamp
+    paranoid: true,
   }
 );
 
@@ -75,13 +76,12 @@ const Imovel = sequelize.define(
       primaryKey: true,
       autoIncrement: true
     },
-
-    imagens: { type: DataTypes.ARRAY(DataTypes.BLOB) },
-
+    imagens: { type: DataTypes.STRING, },
     tipo_operacao: { type: DataTypes.STRING, },
+    id_usuario: { type: DataTypes.INTEGER, },
     zona: { type: DataTypes.STRING, },
     cidade: { type: DataTypes.STRING, },
-    uf_estado: { type: DataTypes.STRING, },
+    estado: { type: DataTypes.STRING, },
     cep: { type: DataTypes.STRING, },
     especie: { type: DataTypes.STRING, },
     valor: { type: DataTypes.STRING, },
@@ -95,9 +95,13 @@ const Imovel = sequelize.define(
   },
   {
     timestamps: false,
-    paranoid: true, //utilizado quando uma tabela não será deletada OBS: O campo deverá ser timestamp
+    paranoid: true,
   }
 );
+
+
+/* devido ao tempo algumas tabelas e codigos foram comentados pois não serão usados, pois suas funções tomariam muito tempo e foram substituidas por formas mais simples de serem usados.
+
 
 const Especificacao = sequelize.define(
   'especificacoes',
@@ -126,6 +130,7 @@ const Especificacao = sequelize.define(
 
 Imovel.hasMany(Especificacao, { foreignKey: 'id_imovel' });
 Especificacao.belongsTo(Imovel, { foreignKey: 'id_imovel' });
+*/
 
 /*
 const ft_Espec = sequelize.define(
@@ -180,10 +185,7 @@ const doc_Ope = sequelize.define(
 );*/
 
 
-
 //Funções Usuario
-
-
 async function criarUsuario(req, res) {
   try {
     if (!req.body.nome || !req.body.sobrenome || !req.body.email || !req.body.senha || !req.body.cpf || !req.body.cidade || !req.body.data_nasc || !req.body.rg || !req.body.cep || !req.body.telefone) {
@@ -197,10 +199,8 @@ async function criarUsuario(req, res) {
     res.status(500).json({ error: 'Erro ao criar usuário' });
   }
 
-
 }
 
-//funcionando
 async function login(req, res) {
   const { email, senha } = req.body;
   const usuario = await Usuario.findOne({ where: { email } });
@@ -212,7 +212,8 @@ async function login(req, res) {
   if (usuario.senha != req.body.senha) {
     return res.status(401).json({ mensagem: 'Email ou senha inválidos' });
   }
-  res.json({ token: jwt.sign(JSON.stringify(usuario), 'senha do token') })  // Gere e retorne um token JWT ou faça o que for necessário após a autenticação bem-sucedida.
+  res.json({ token: jwt.sign(JSON.stringify(usuario), 'senha do token') })
+
 }
 
 async function listarUsuarios(req, res) {
@@ -223,6 +224,7 @@ async function listarUsuarios(req, res) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao listar usuários' });
   }
+
 }
 
 async function deletarUsuario(req, res) {
@@ -237,6 +239,7 @@ async function deletarUsuario(req, res) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao deletar usuário' });
   }
+
 }
 
 async function atualizarUsuario(req, res) {
@@ -252,6 +255,7 @@ async function atualizarUsuario(req, res) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao atualizar usuário' });
   }
+
 }
 
 async function atualizarUsuarioParcialmente(req, res) {
@@ -268,6 +272,7 @@ async function atualizarUsuarioParcialmente(req, res) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao atualizar usuário' });
   }
+
 }
 
 app.post('/usuarios', async (req, res) => {
@@ -283,18 +288,20 @@ app.post('/usuarios', async (req, res) => {
 
 //Funções Imovel
 
-app.post('/imovel', upload.single('imagens'), criarImovel);
-
 async function criarImovel(req, res) {
   try {
-    // Outros campos do formulário
-    const { tipo_operacao, zona, cidade, estado, especie, valor, bairro, rua, cep, numero, complemento, tamanho_terreno, tamanho_moradia, info_complementares, imagens } = req.body;
+
+    const { tipo_operacao, id_usuario, zona, cidade, estado, especie, valor, bairro, rua, cep, numero, complemento, tamanho_terreno, tamanho_moradia, info_complementares } = req.body;
+
+    const imagens = req.files.map(files => files.path);
+    console.log(imagens)
 
     const imovel = await Imovel.create({
       tipo_operacao,
+      id_usuario,
       zona,
       cidade,
-      uf_estado: estado,
+      estado,
       cep,
       especie,
       valor,
@@ -305,30 +312,18 @@ async function criarImovel(req, res) {
       tamanho_terreno,
       tamanho_moradia,
       info_complementares,
-      imagens, // Salve o array de imagens no campo "imagens"
+      imagens,
     });
 
+    console.log('Imóvel criado com sucesso:', imovel);
 
-    // Process room specifications
-    const roomSpecs = req.body.roomSpecs; // Assuming you have an array of room specifications in the request body
-    if (roomSpecs && roomSpecs.length > 0) {
-      for (const roomSpec of roomSpecs) {
-        const { descricao, medida, quantidade } = roomSpec;
-        await Especificacao.create({
-          id_imovel: imovel.id_imovel, // Assign the Imovel ID as the foreign key
-          descricao,
-          medida,
-          quantidade
-        });
-      }
-    }
+    return res.status(201).json({ success: true, imovel });
 
-    await imovel.save();
-    res.status(201).json({ msg: 'Imóvel criado com sucesso' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro ao criar imóvel' });
+    console.error('Erro ao criar imóvel:', error);
+    //return res.status(500).json({ error: 'Erro interno no servidor.' });
   }
+
 }
 
 async function listarImoveis(req, res) {
@@ -339,6 +334,7 @@ async function listarImoveis(req, res) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao listar imóveis' });
   }
+
 }
 
 //usuarios
@@ -350,7 +346,18 @@ app.put('/usuarios/:id_usuario', atualizarUsuario);
 app.patch('/usuarios/:id_usuario', atualizarUsuarioParcialmente);
 
 //imoveis
+app.post('/imovel', upload.array('imagens'), (req, res) => {
+  console.log(req.body);
+  console.log(req.files);
 
+  criarImovel(req.body, req.files)
+    .then(result => {
+      res.json(result);
+    })
+    .catch(error => {
+      console.error(error);
+      // res.status(500).json({ error: 'Erro ao processar a solicitação' });
+    });
+});
 
-// Rota para listar imóveis
 app.get('/imoveis', listarImoveis);
