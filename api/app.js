@@ -35,8 +35,8 @@ const sequelize = new Sequelize({ //troque para seu perfil
   dialect: 'postgres',
   host: 'localhost',
   port: 5432,
-  username: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
+  username: 'postgres',
+  password: 'Thigasbm',
   database: 'CatImo',
 });
 
@@ -76,7 +76,7 @@ const Imovel = sequelize.define(
       primaryKey: true,
       autoIncrement: true
     },
-    imagens: { type: DataTypes.STRING, },
+    imagens: { type: DataTypes.TEXT, },  
     tipo_operacao: { type: DataTypes.STRING, },
     id_usuario: { type: DataTypes.INTEGER, },
     zona: { type: DataTypes.STRING, },
@@ -98,6 +98,7 @@ const Imovel = sequelize.define(
     paranoid: true,
   }
 );
+
 
 
 /* devido ao tempo algumas tabelas e codigos foram comentados pois não serão usados, pois suas funções tomariam muito tempo e foram substituidas por formas mais simples de serem usados.
@@ -132,23 +133,6 @@ Imovel.hasMany(Especificacao, { foreignKey: 'id_imovel' });
 Especificacao.belongsTo(Imovel, { foreignKey: 'id_imovel' });
 */
 
-/*
-const ft_Espec = sequelize.define(
-  'fotos_espec',
-  {
-    id_foto: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    id_espec: { type: DataTypes.STRING },
-    descricao: { type: DataTypes.STRING },
-  },
-  {
-    timestamps: false,
-    paranoid: true,
-  }
-);*/
 /*
 const arq_Doc = sequelize.define(
   'arquivos_doc',
@@ -288,17 +272,20 @@ app.post('/usuarios', async (req, res) => {
 
 //Funções Imovel
 
-async function criarImovel(req, res) {
+async function criarImovel(req, files, res) {
   try {
 
-    const { tipo_operacao, id_usuario, zona, cidade, estado, especie, valor, bairro, rua, cep, numero, complemento, tamanho_terreno, tamanho_moradia, info_complementares } = req.body;
+   /*Erro aqui*/  const { tipo_operacao, id_usuario, zona, cidade, estado, especie, valor, bairro, rua, cep, numero, complemento, tamanho_terreno, tamanho_moradia, info_complementares } = req;
 
-    const imagens = req.files.map(files => files.path);
-    console.log(imagens)
+    const imagens = files.map(files => files.path);
+    console.log(imagens[0])
 
+    let nome_imagem = imagens[0];
+
+ 
     const imovel = await Imovel.create({
       tipo_operacao,
-      id_usuario,
+      id_usuario, /*Aqui o campo não pode ser 'undefined'*/
       zona,
       cidade,
       estado,
@@ -312,7 +299,7 @@ async function criarImovel(req, res) {
       tamanho_terreno,
       tamanho_moradia,
       info_complementares,
-      imagens,
+      imagens: nome_imagem, /*A imagem fica salva nessa variavel!*/
     });
 
     console.log('Imóvel criado com sucesso:', imovel);
@@ -324,7 +311,8 @@ async function criarImovel(req, res) {
     //return res.status(500).json({ error: 'Erro interno no servidor.' });
   }
 
-}
+  }
+
 
 async function listarImoveis(req, res) {
   try {
@@ -337,6 +325,7 @@ async function listarImoveis(req, res) {
 
 }
 
+
 //usuarios
 app.post('/usuario', criarUsuario);
 app.post('/login', login);
@@ -346,14 +335,13 @@ app.put('/usuarios/:id_usuario', atualizarUsuario);
 app.patch('/usuarios/:id_usuario', atualizarUsuarioParcialmente);
 
 //imoveis
-app.post('/imovel', upload.array('imagens'), (req, res) => {
+app.post('/imovel', upload.array('imagens', 10), (req, res) => {
   console.log(req.body);
   console.log(req.files);
 
-  criarImovel(req.body, req.files)
-    .then(result => {
-      res.json(result);
-    })
+  const { body, files } = req;  // Extrair body e files do req
+
+  criarImovel(body, files, res)
     .catch(error => {
       console.error(error);
       // res.status(500).json({ error: 'Erro ao processar a solicitação' });

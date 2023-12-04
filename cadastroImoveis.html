@@ -60,7 +60,7 @@
         <center>
 
 
-            <form enctype="multipart/form-data" action="">
+            <form method="POST" enctype="multipart/form-data" action="">
 
 
                 <div class="form-group row ">
@@ -95,18 +95,15 @@
 
 
                     </div>
-                    <div class="col-md-1">
-                        <label for="tipo_venda">Venda</label>
-                        <input type="radio" class="form-control" id="tipo_operacao" name="tipo_operacao"
-                            style="height:25px;width:50px;" value="Venda" required="required">
-                    </div>
-                    <div
-                        style="border-right:0px;border-top:0px;border-bottom:0px;border-left:3px;border-style:solid;border-color:rgba(81,80,80,0.692);height:60px;">
-                    </div>
-                    <div class=" col-sm-1">
-                        <label for="tipo_locacao">Locação</label>
-                        <input type="radio" class="form-control" style=" height:25px;width:50px;" id="tipo_operacao"
-                            name="tipo_operacao" value="Locação" required="required">
+                    <label for="localidade" class="col-sm-1. localidade">Tipo:</label>
+                    <div class="col-sm-2">
+                        <select class="form-control localidade1" id="tipo_operacao" name="tipo_operacao" required="required">
+                            <option>Selecione...</option>
+                            <option value="Venda">Venda</option>
+                            <option value="Locação">Locação</option>
+                        </select>
+
+
                     </div>
                 </div>
         </center>
@@ -406,9 +403,9 @@
     });
 
 //ideia do isaque
-    async function salvarImovel(imovel){
-        await fetch('url que salva os dados em json', {body: imovel})
-        await fecht('url que salva a imagem')
-    }
+/*    async function salvarImovel(imovel){
+        await fetch('http://localhost:8080/imovel', {body: imovel})
+        await fecht('http://localhost:8080/uploadFt',)// dar newformdata dar append
+    }*/
 
 </script>
